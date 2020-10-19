@@ -28,6 +28,10 @@ Route::post('/insertTask', [ManageTaskController::class, 'insertTask']);
 //Delete Task
 Route::get('/deleteTask/{id}', [ManageTaskController::class, 'deleteTask']);
 
+//
+Route::get('doneTask/{id}',[ManageTaskController::class, 'doneTask']);
+
+
 //Update Task
 Route::get('/editTask/{id}', [ManageTaskController::class,'getTask']);
 Route::post('/updateTask/{id}', [ManageTaskController::class, 'updateTask']);

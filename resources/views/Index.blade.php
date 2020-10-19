@@ -39,6 +39,7 @@
 						<tr>
 							<th scope="col">#</th>
 							<th scope="col" width="500px">Tasks</th>
+							<th scope="col">Done</th>
 							<th scope="col">Edit</th>
 							<th scope="col">Delete</th>
 						</tr>
@@ -51,15 +52,15 @@
 							$count++;
 							
 						@endphp
-						
-
-						<tr>
-							<th scope="row">{{$count}}</th>
-							<td width="500px">{{$item->tasks}}</td>
-							<td><a href="/editTask/{{$item->id}}" class="btn btn-info btn-sm">Edit</a></td>
-							<td><a href="/deleteTask/{{$item->id}}" class="btn btn-warning btn-sm">Delete</a></td>
-						</tr>
-
+						@if(!$item->done == 1)
+							<tr>
+								<th scope="row">{{$count}}</th>
+								<td width="500px">{{$item->tasks}}</td>
+								<td><a href="/doneTask/{{$item->id}}" class="btn btn-success btn-sm">Done</a></td>
+								<td><a href="/editTask/{{$item->id}}" class="btn btn-info btn-sm">Edit</a></td>
+								<td><a href="/deleteTask/{{$item->id}}" class="btn btn-warning btn-sm">Delete</a></td>
+							</tr>
+						@endif
 
 						@endforeach
 						

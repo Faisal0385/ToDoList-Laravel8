@@ -13,6 +13,9 @@ class ManageTaskController extends Controller
 
         $data = Task::all();
 
+        ///I want to filter the data if got 1
+        ///No need to show...
+
         return View('Index', ['data' => $data]);
         
     }
@@ -29,6 +32,7 @@ class ManageTaskController extends Controller
         
         $Task = new Task;
         $Task->tasks = $req->task;
+        $Task->done = 0;
         $Task->save();
 
         return redirect('/');
@@ -66,6 +70,20 @@ class ManageTaskController extends Controller
 
         $Task = Task::find($id);
         $Task->delete();
+
+        return redirect('/');
+
+    }
+
+    public function doneTask($id){
+
+
+        $Task = Task::find($id);
+        $Task->done = 1;
+        $Task->save();
+
+        // $Task = Task::find($id);
+        // $Task->delete();
 
         return redirect('/');
 
