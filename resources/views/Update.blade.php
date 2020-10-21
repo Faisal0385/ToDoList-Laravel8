@@ -15,21 +15,26 @@
 
 	<div class="container">
 		<div class="row d-flex justify-content-center mt-5">
+			
 			@php
 				$task->tasks;
 				$task->id;
-			@endphp
+			@endphp		
 			
 			<div class="col-md-6 shadow p-3 mb-5 bg-white rounded">
+				<!-- For showing success msg -->
+				@if(session()->has('success'))
+					<div class="text-center alert alert-success">{{session('success')}}</div>
+				@endif
 				<form action="/updateTask/{{$task->id}}" method="post">
 					@csrf
 				  <div class="form-group">
 
 					<label for="Task Input"><strong>Update Task</strong></label>
 					<input type="hidden" name="id" value="{{$task->id}}">
-				    <input type="text" name="task" class="form-control" id="task" value="{{$task->tasks}}">
+				    <input type="text" name="tasks" class="form-control" id="tasks" value="{{$task->tasks}}">
 				    <small id="textError" class="form-text text-danger">
-						@error('task')
+						@error('tasks')
 							{{$message}}
 						@enderror	
 					</small>

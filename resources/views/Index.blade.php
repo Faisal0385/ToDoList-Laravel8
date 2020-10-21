@@ -18,14 +18,20 @@
 		<div class="row d-flex justify-content-center mt-5">
 			<div class="col-md-6">
 				<div class="shadow p-3 mb-5 bg-white rounded">
+
+					<!-- For showing success msg -->
+					@if(session()->has('success'))
+						<div class="text-center alert alert-success">{{session('success')}}</div>
+					@endif
+
 					<form action="insertTask" method="post">
 						@csrf
 						<div class="form-group">
 							<label for="Task Input"><strong>Add Task</strong></label>
-							<input type="text" name="task" class="form-control" id="task" placeholder="Enter Task Here.">
+							<input type="text" name="tasks" class="form-control" id="tasks" placeholder="Enter Task Here.">
 							<small id="textError" class="form-text text-danger">
 								
-								@error('task')
+								@error('tasks')
 								{{$message}}
 								@enderror	
 
@@ -34,6 +40,13 @@
 						<button type="submit" class="btn btn-danger btn-sm">Submit</button>
 					</form>
 				</div>
+
+				
+				<!-- For showing delete msg -->
+				@if(session()->has('deleted'))
+					<div class="text-center alert alert-warning">{{session('deleted')}}</div>
+				@endif
+
 				<table class="table table-striped mt-5 table-bordered">
 					<thead>
 						<tr>
@@ -45,14 +58,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						
+						@php 
+							$count = 0;
+						@endphp
 						@foreach($data as $item)
 						@php
-							$count = 0;
 							$count++;
-							
 						@endphp
-						@if(!$item->done == 1)
 							<tr>
 								<th scope="row">{{$count}}</th>
 								<td width="500px">{{$item->tasks}}</td>
@@ -60,14 +72,13 @@
 								<td><a href="/editTask/{{$item->id}}" class="btn btn-info btn-sm">Edit</a></td>
 								<td><a href="/deleteTask/{{$item->id}}" class="btn btn-warning btn-sm">Delete</a></td>
 							</tr>
-						@endif
-
 						@endforeach
 						
 						@if(count($data) == 0)
 						<tr>
 							<th scope="row"></th>
 							<td width="500px" class="text-center"><strong>No Data Found</strong></td>
+							<td></td>
 							<td></td>
 							<td></td>
 						</tr>

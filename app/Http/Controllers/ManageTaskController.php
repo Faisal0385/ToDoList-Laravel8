@@ -11,10 +11,21 @@ class ManageTaskController extends Controller
     //
     public function showData(){
 
-        $data = Task::all();
+        $result = Task::all();
 
         ///I want to filter the data if got 1
         ///No need to show...
+
+        $data = [];
+
+        foreach($result as $item){
+
+            if($item->done != 1){
+
+                array_push($data, $item);
+
+            }
+        }
 
         return View('Index', ['data' => $data]);
         
@@ -24,18 +35,18 @@ class ManageTaskController extends Controller
 
         $req->validate([
             //unique:tasks how make filed unique
-            'task' => 'required|max:255'
+            'tasks' => 'required|max:255|unique:tasks'
         ]);
     
 
         $req->task;
         
         $Task = new Task;
-        $Task->tasks = $req->task;
+        $Task->tasks = $req->tasks;
         $Task->done = 0;
         $Task->save();
 
-        return redirect('/');
+        return redirect('/')->with('success', 'Data Inserted Successful.');
 
         
     }
@@ -52,17 +63,17 @@ class ManageTaskController extends Controller
 
         $req->validate([
             //unique:tasks how make filed unique
-            'task' => 'required|max:255'
+            'tasks' => 'required|max:255|unique:tasks'
         ]);
     
-        $req->input('task');
+        $req->input('tasks');
         $req->input('id');
 
         $Task = Task::find($req->input('id'));
-        $Task->tasks = $req->task;
+        $Task->tasks = $req->tasks;
         $Task->save();
 
-        return redirect('/');
+        return redirect('/')->with('update', 'Data Updated Successful.');
 
     }
 
@@ -71,7 +82,7 @@ class ManageTaskController extends Controller
         $Task = Task::find($id);
         $Task->delete();
 
-        return redirect('/');
+        return back()->with('deleted', 'Task Deleted.');
 
     }
 
@@ -81,9 +92,6 @@ class ManageTaskController extends Controller
         $Task = Task::find($id);
         $Task->done = 1;
         $Task->save();
-
-        // $Task = Task::find($id);
-        // $Task->delete();
 
         return redirect('/');
 
